@@ -1,0 +1,40 @@
+{
+    "preferred_substats": [],
+    "echo_data": [
+        {
+            "cost": 4,
+            "main_stat": {
+                "name": "crit_dmg",
+                "value": 44.0
+            },
+            "innate_stat": {
+                "name": "f_atk",
+                "value": 150
+            },
+            "substats": [
+                {
+                    "name": "crit_rate",
+                    "value": 10.5
+                },
+                {
+                    "name": "crit_dmg",
+                    "value": 21.0
+                },
+                {
+                    "name": "resonance_skill_dmg_bonus",
+                    "value": 11.6
+                },
+                {
+                    "name": "atk%",
+                    "value": 11.6
+                },
+                {
+                    "name": "energy_regen",
+                    "value": 14.9
+                }
+            ]
+        }
+    ]
+}
+
+
