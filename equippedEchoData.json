@@ -14,23 +14,23 @@
             "substats": [
                 {
                     "name": "crit_rate",
-                    "value": 10.5
+                    "value": 8.3
                 },
                 {
                     "name": "crit_dmg",
-                    "value": 21.0
+                    "value": 17.0
                 },
                 {
-                    "name": "resonance_skill_dmg_bonus",
-                    "value": 11.6
+                    "name": "resonance_liberation_dmg_bonus",
+                    "value": 10.5
                 },
                 {
                     "name": "atk%",
-                    "value": 11.6
+                    "value": 8.3
                 },
                 {
                     "name": "energy_regen",
-                    "value": 14.9
+                    "value": 10.0
                 }
             ]
         }

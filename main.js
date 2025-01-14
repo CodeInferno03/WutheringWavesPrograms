@@ -1,3 +1,5 @@
+const doEchoEfficiencyCalculation = require("./individualEchoEfficiencyCalculator");
+const echoPrettyPrint = require('./prettyPrinter');
 const fs = require("fs");
 
 function readJSONFile(filename) {
@@ -10,59 +12,6 @@ function readJSONFile(filename) {
       resolve(JSON.parse(data));
     });
   });
-}
-
-/**
- * Function that returns the percentage efficiency value of a substat as a
- * helper for `doEfficiencyCalculation`, so that the code is more readable
- * @param {number} min minimum value of the substat
- * @param {number} max maximum value of the substat
- * @param {number} value the obtained value
- * @param {string} substatName the substat that is being calculated
- */
-function getEfficiencyValue(min, max, value, substatName) {
-  let percentageEfficiencyValue, substatWeight;
-
-  // Since flat stats have no decimal values, but the other stats do
-  // we need different cases for both
-  if (["atk", "hp", "def"].includes(substatName)) {
-    // The +1 is to account for the minimum value of the substat as a
-    // separate data point, so that there is never a 0% efficiency
-    substatWeight = 100 / (max - min + 1);
-    percentageEfficiencyValue = (value - min + 1) * substatWeight;
-  } else {
-    // Multiply by 10 to get rid of the decimal
-    substatWeight = 100 / ((max - min) * 10 + 1);
-    percentageEfficiencyValue = ((value - min) * 10 + 1) * substatWeight;
-  }
-
-  return percentageEfficiencyValue;
-}
-
-/**
- * Function to calculate the efficiency of an echo based on the substat data
- * @param {Object} echoSubstatData Min and max rolls of each substat
- * @param {Array} equippedEchoData The data of the currently equipped echo
- */
-function doEfficiencyCalculation(echoSubstatData, equippedEchoData) {
-  const numSubstats = equippedEchoData.length;
-  let aggregatedEfficiency = 0;
-  for (let equippedEchoStat of equippedEchoData) {
-    let equippedStatName = equippedEchoStat.name,
-      equippedStatValue = equippedEchoStat.value;
-
-    let efficiencyValue = getEfficiencyValue(
-      echoSubstatData[equippedStatName].min,
-      echoSubstatData[equippedStatName].max,
-      equippedStatValue,
-      equippedStatName
-    );
-
-    aggregatedEfficiency += efficiencyValue;
-  }
-
-  const efficiency = aggregatedEfficiency / numSubstats;
-  return efficiency;
 }
 
 async function main() {
@@ -122,13 +71,19 @@ async function main() {
   };
 
   let equippedEchoData = await readJSONFile("equippedEchoData.json");
+  let individualEchoData = equippedEchoData.echo_data[0].substats;
 
-  const echoEfficiency = doEfficiencyCalculation(
+  const echoEfficiency = doEchoEfficiencyCalculation(
     echoSubstatData,
-    equippedEchoData
+    individualEchoData,
+    1
   );
 
-  console.log(`Efficiency: ${echoEfficiency.toFixed(2)}`);
+  echoPrettyPrint(
+    echoEfficiency,
+    echoSubstatData,
+    individualEchoData
+  )
 }
 
 main();
